@@ -4,14 +4,9 @@
 #include "index.h"
 
 const char *ssid = "nasa";
-const char *password = "melnikov";
+const char *password = "12345678";
 
 ESP8266WebServer server(80);
-
-void handleRoot() {
-  String s = MAIN_page;
-  server.send(200, "text/html", s);  
-}
 
 void setup() {
   Serial.begin(115200);
@@ -35,14 +30,20 @@ Serial.println("");
   Serial.print("AP IP address: ");
   Serial.println(IP);
 
+  server.on("/", handleRoot);server.on("/", handleRoot);
   server.on("/temp", doTemp);
-  server.on("/", handleRoot);
   server.begin();
   
   Serial.println("started");
 }
 
+
+void handleRoot() {
+  server.send(200, "text/html", index_html);  
+}
+
 void doTemp(){  
+  Serial.println("doTemp");
   //gettemperature();       // read sensor
   String webString = "Temperature: " + String((int) 1.0)+" C";
   server.send(200, "text/plain", webString);   

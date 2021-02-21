@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "/Users/imelnikov/Library/Arduino15/packages/esp8266/tools/**",
+                "/Users/imelnikov/Documents/Arduino/libraries/**",
+                "/Applications/Arduino.app/Contents/Java/libraries/**",
+                "/Users/imelnikov/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/**",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "USBCON"
+            ],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++98",
+            "intelliSenseMode": "macos-clang-x64",
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}

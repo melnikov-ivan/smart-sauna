@@ -21,21 +21,35 @@ const char index_html[] PROGMEM = R"rawliteral(
   </style>
 </head>
 <body>
-  <h2>vanek</h2>
+  <h2>Sauna</h2>
   <p>
-   temperature
-   <span id="temp1"/>
+   Temperature <span id="temp1"/>
+  </p>
+
+  <p>
+  Level <span id="level1"/>
   </p>
 </body>
 <script>
-  setInterval(function ( ) {
+setInterval(function ( ) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("temp1").innerHTML = this.responseText;
     }
   };
-  xhttp.open("GET", "/temp", true);
+  xhttp.open("GET", "/t1", true);
+  xhttp.send();
+}, 10000 ) ;
+
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("level1").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "/l1", true);
   xhttp.send();
 }, 10000 ) ;
 </script>

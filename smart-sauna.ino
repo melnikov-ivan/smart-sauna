@@ -52,7 +52,8 @@ Serial.println("");
   Serial.println(IP);
 
   server.on("/", handleRoot);server.on("/", handleRoot);
-  server.on("/temp", doTemp);
+  server.on("/t1", getT1);
+  server.on("/l1", getL1);
   server.begin();
   
   Serial.println("started");
@@ -63,21 +64,28 @@ void handleRoot() {
   server.send(200, "text/html", index_html);  
 }
 
-void doTemp(){  
-  Serial.println("doTemp");
-  //gettemperature();       // read sensor
+float t1;
+int l1;
+
+void getT1() {  
   String webString = "Temperature: " + String((int) 1.0)+" C";
-  server.send(200, "text/plain", webString);   
+  server.send(200, "text/plain", String(t1));   
 }
+
+void getL1() {
+  String webString = "Temperature: ";
+  server.send(200, "text/plain", String(l1));   
+}
+
 
 void loop() {
 
   dallasSensors.requestTemperatures(); // Просим ds18b20 собрать данные
-  float t1 = dallasSensors.getTempCByIndex(0);
+  t1 = dallasSensors.getTempCByIndex(0);
   Serial.println(t1);
 
 
-  int l1 = waterLevel(level1pin);
+  l1 = waterLevel(level1pin);
   Serial.println(l1);
 
   delay(1000);
@@ -85,12 +93,12 @@ void loop() {
   server.handleClient();
 }
 
-// Вспомогательная функция печати значения температуры для устрйоства
+/* Вспомогательная функция печати значения температуры для устрйоства
 void printTemperature(DeviceAddress deviceAddress){
   float tempC = dallasSensors.getTempC(deviceAddress);
   Serial.print("Temp C: ");
   Serial.println(tempC);
-}
+}*/
 
 double L = 100.0; // длина трубки в см
 // mpx5010pd

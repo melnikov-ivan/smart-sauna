@@ -5,6 +5,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+// html template
 #include "index.h"
 
 const char *ssid = "nasa";
@@ -19,13 +20,13 @@ IPAddress subnet(255,255,255,0);
 */
 
 
-// Data wire is plugged into pin 2 on the Arduino
-// D4 = GPIO2 = 2
 #define ONE_WIRE_BUS D4
 // Создаем объект OneWire
 OneWire oneWire(ONE_WIRE_BUS);
 // Создаем объект DallasTemperature для работы с сенсорами, передавая ему ссылку на объект для работы с 1-Wire.
 DallasTemperature dallasSensors(&oneWire);
+
+#define level1pin A0
 
 
 void setup() {
@@ -71,13 +72,13 @@ void doTemp(){
 
 void loop() {
 
-  Serial.print("Измеряем температуру...");
   dallasSensors.requestTemperatures(); // Просим ds18b20 собрать данные
-  Serial.println("Выполнено");
-  //  Запрос на получение сохраненного значения температуры
-  // printTemperature(sensorAddress);
+  float t1 = dallasSensors.getTempCByIndex(0);
+  Serial.println(t1);
 
-  Serial.println(dallasSensors.getTempCByIndex(0));
+
+  int l1 = waterLevel(level1pin);
+  Serial.println(l1);
 
   delay(1000);
 
@@ -89,4 +90,22 @@ void printTemperature(DeviceAddress deviceAddress){
   float tempC = dallasSensors.getTempC(deviceAddress);
   Serial.print("Temp C: ");
   Serial.println(tempC);
+}
+
+double L = 100.0; // длина трубки в см
+// mpx5010pd
+// 1 - Out
+// 2 - Gnd
+// 3 - Vcc
+int waterLevel(int pin) {
+  double p = analogRead(pin);
+
+  // Давление водяного столба в кПа
+  double h = (p / 1024 - 0.04) / 0.018 / 5.0; // kPa
+
+  // Расчитываем поправку в см
+  double l = L * h / (100.0 + h);
+
+  int total = h * 10.0 + l;
+  return total;
 }

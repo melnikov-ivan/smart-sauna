@@ -1,12 +1,32 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
+// temperature
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 #include "index.h"
 
 const char *ssid = "nasa";
 const char *password = "12345678";
 
 ESP8266WebServer server(80);
+
+/* Настройки IP адреса 
+IPAddress local_ip(192,168,1,1);
+IPAddress gateway(192,168,1,1);
+IPAddress subnet(255,255,255,0);
+*/
+
+
+// Data wire is plugged into pin 2 on the Arduino
+// D4 = GPIO2 = 2
+#define ONE_WIRE_BUS D4
+// Создаем объект OneWire
+OneWire oneWire(ONE_WIRE_BUS);
+// Создаем объект DallasTemperature для работы с сенсорами, передавая ему ссылку на объект для работы с 1-Wire.
+DallasTemperature dallasSensors(&oneWire);
+
 
 void setup() {
   Serial.begin(115200);
@@ -50,5 +70,23 @@ void doTemp(){
 }
 
 void loop() {
+
+  Serial.print("Измеряем температуру...");
+  dallasSensors.requestTemperatures(); // Просим ds18b20 собрать данные
+  Serial.println("Выполнено");
+  //  Запрос на получение сохраненного значения температуры
+  // printTemperature(sensorAddress);
+
+  Serial.println(dallasSensors.getTempCByIndex(0));
+
+  delay(1000);
+
   server.handleClient();
+}
+
+// Вспомогательная функция печати значения температуры для устрйоства
+void printTemperature(DeviceAddress deviceAddress){
+  float tempC = dallasSensors.getTempC(deviceAddress);
+  Serial.print("Temp C: ");
+  Serial.println(tempC);
 }

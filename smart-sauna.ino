@@ -19,13 +19,12 @@ IPAddress gateway(192,168,1,1);
 IPAddress subnet(255,255,255,0);
 */
 
-#define sensorEnable D0
+#define sensor1 D0
+#define sensor2 D1
 #define level1pin A0
 #define temp1 D4
 OneWire oneWire(temp1);
 DallasTemperature dallasSensors(&oneWire);
-
-
 
 
 
@@ -50,12 +49,13 @@ Serial.println("");
   Serial.print("AP IP address: ");
   Serial.println(IP);
 
-  server.on("/", handleRoot);server.on("/", handleRoot);
+  server.on("/", handleRoot);
   server.on("/t1", getT1);
   server.on("/l1", getL1);
   server.begin();
 
-  pinMode(sensorEnable, OUTPUT);
+  pinMode(sensor1, OUTPUT);
+  pinMode(sensor2, OUTPUT);
 
   Serial.println("started");
 }
@@ -65,8 +65,10 @@ void handleRoot() {
   server.send(200, "text/html", index_html);  
 }
 
-float t1;
-int l1;
+int t1 = 0;
+int l1 = 0;
+int t2 = 0;
+int l2 = 0;
 
 void getT1() {  
   server.send(200, "text/plain", String(t1));   
@@ -78,22 +80,23 @@ void getL1() {
 
 
 void loop() {
-  digitalWrite(sensorEnable, HIGH);
-  delay(1000);
-
-  dallasSensors.requestTemperatures(); // Просим ds18b20 собрать данные
-  t1 = dallasSensors.getTempCByIndex(0);
-  Serial.println(t1);
-
-
-  l1 = waterLevel(level1pin);
-  Serial.println(l1);
-
-  digitalWrite(sensorEnable, LOW);
+  readSensor(sensor1, &t1, &l1);
+  // readSensor(sensor2, &t2, &l2);
 
   server.handleClient();
 }
 
+void readSensor(int sensorPin, int *temp, int *level) {
+    digitalWrite(sensorPin, HIGH);
+    delay(500);
+
+    dallasSensors.requestTemperatures();
+    *temp = (int) dallasSensors.getTempCByIndex(0);
+
+    *level = waterLevel(level1pin);
+
+    digitalWrite(sensorPin, LOW);
+}
 
 
 double L = 100.0; // длина трубки в см

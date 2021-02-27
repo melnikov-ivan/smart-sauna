@@ -19,6 +19,18 @@ const char index_html[] PROGMEM = R"rawliteral(
       padding-bottom: 15px;
     }
   </style>
+  <script>
+    function loadSensor(param, holder) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById(holder).innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", param, true);
+  xhttp.send();
+}
+  </script>
 </head>
 <body>
   <h2>Sauna</h2>
@@ -31,27 +43,8 @@ const char index_html[] PROGMEM = R"rawliteral(
   </p>
 </body>
 <script>
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("temp1").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("GET", "/t1", true);
-  xhttp.send();
-}, 10000 ) ;
-
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("level1").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("GET", "/l1", true);
-  xhttp.send();
-}, 10000 ) ;
+  setInterval(loadSensor, 4900, "/t1", "temp1");
+  setInterval(loadSensor, 6300, "/l1", "level1");
 </script>
 </html>
 )rawliteral";

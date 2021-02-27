@@ -19,14 +19,14 @@ IPAddress gateway(192,168,1,1);
 IPAddress subnet(255,255,255,0);
 */
 
-
-#define ONE_WIRE_BUS D4
-// Создаем объект OneWire
-OneWire oneWire(ONE_WIRE_BUS);
-// Создаем объект DallasTemperature для работы с сенсорами, передавая ему ссылку на объект для работы с 1-Wire.
+#define sensorEnable D0
+#define level1pin A0
+#define temp1 D4
+OneWire oneWire(temp1);
 DallasTemperature dallasSensors(&oneWire);
 
-#define level1pin A0
+
+
 
 
 void setup() {
@@ -44,9 +44,8 @@ Serial.println("");
   Serial.println(WiFi.localIP());
   */
   
-  // Remove the password parameter, if you want the AP (Access Point) to be open
+  // Access Point
   WiFi.softAP(ssid, password);
-
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(IP);
@@ -55,7 +54,9 @@ Serial.println("");
   server.on("/t1", getT1);
   server.on("/l1", getL1);
   server.begin();
-  
+
+  pinMode(sensorEnable, OUTPUT);
+
   Serial.println("started");
 }
 
@@ -68,17 +69,17 @@ float t1;
 int l1;
 
 void getT1() {  
-  String webString = "Temperature: " + String((int) 1.0)+" C";
   server.send(200, "text/plain", String(t1));   
 }
 
 void getL1() {
-  String webString = "Temperature: ";
   server.send(200, "text/plain", String(l1));   
 }
 
 
 void loop() {
+  digitalWrite(sensorEnable, HIGH);
+  delay(1000);
 
   dallasSensors.requestTemperatures(); // Просим ds18b20 собрать данные
   t1 = dallasSensors.getTempCByIndex(0);
@@ -88,17 +89,12 @@ void loop() {
   l1 = waterLevel(level1pin);
   Serial.println(l1);
 
-  delay(1000);
+  digitalWrite(sensorEnable, LOW);
 
   server.handleClient();
 }
 
-/* Вспомогательная функция печати значения температуры для устрйоства
-void printTemperature(DeviceAddress deviceAddress){
-  float tempC = dallasSensors.getTempC(deviceAddress);
-  Serial.print("Temp C: ");
-  Serial.println(tempC);
-}*/
+
 
 double L = 100.0; // длина трубки в см
 // mpx5010pd

@@ -52,6 +52,8 @@ Serial.println("");
   server.on("/", handleRoot);
   server.on("/t1", getT1);
   server.on("/l1", getL1);
+  server.on("/t2", getT2);
+  server.on("/l2", getL2);
   server.begin();
 
   pinMode(sensor1, OUTPUT);
@@ -71,31 +73,41 @@ int t2 = 0;
 int l2 = 0;
 
 void getT1() {  
-  server.send(200, "text/plain", String(t1));   
+  server.send(200, "text/plain", String(t1)); 
 }
 
 void getL1() {
   server.send(200, "text/plain", String(l1));   
 }
 
+void getT2() {  
+  server.send(200, "text/plain", String(t2));   
+}
+
+void getL2() {
+  server.send(200, "text/plain", String(l2));   
+}
 
 void loop() {
   readSensor(sensor1, &t1, &l1);
-  // readSensor(sensor2, &t2, &l2);
+  readSensor(sensor2, &t2, &l2);
 
   server.handleClient();
 }
 
 void readSensor(int sensorPin, int *temp, int *level) {
-    digitalWrite(sensorPin, HIGH);
+    digitalWrite(sensorPin, LOW);
     delay(500);
 
     dallasSensors.requestTemperatures();
     *temp = (int) dallasSensors.getTempCByIndex(0);
+    Serial.print(sensorPin);
+    Serial.print(" - ");
+    Serial.println(*temp);
 
     *level = waterLevel(level1pin);
 
-    digitalWrite(sensorPin, LOW);
+    digitalWrite(sensorPin, HIGH);
 }
 
 

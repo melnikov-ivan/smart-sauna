@@ -21,3 +21,9 @@
 ### Вопросы
 1. Только 1 аналогоовый вхоод. Надо добавлять мультиплесор
 2. Подвисает веб-сервер. Попрообовать gz.страницы или connection-close.
+
+### Ссылки
+1. https://www.youtube.com/watch?v=GUZ9IO3wyiQ - mqtt on android
+2. Mqtt Broker App 
+3. DACTS - broker
+4. MQTT Dash

@@ -34,17 +34,33 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <h2>Sauna</h2>
+  <table>
+  <tr>
+  <td>
   <p>
    Temperature <span id="temp1"/>
   </p>
-
   <p>
-  Level <span id="level1"/>
+    Level <span id="level1"/>
   </p>
+  </td>
+  <td>
+    <p>
+      Temperature <span id="temp2"/>
+    </p>
+    <p>
+      Level <span id="level2"/>
+    </p>
+  </td>
+  </tr>
+  </table>
+
 </body>
 <script>
   setInterval(loadSensor, 4900, "/t1", "temp1");
   setInterval(loadSensor, 6300, "/l1", "level1");
+  setInterval(loadSensor, 4900, "/t2", "temp2");
+  setInterval(loadSensor, 6300, "/l2", "level2");
 </script>
 </html>
 )rawliteral";

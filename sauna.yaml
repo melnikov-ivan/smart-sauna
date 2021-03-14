@@ -18,18 +18,36 @@ wifi:
 
 captive_portal:
 
-# Enable logging
+
+web_server:
+  port: 80
+
+  # Enable logging
 logger:
 
 
 #ota:
 
-sensor:
 # http://sauna.local/sensor/living_room_brightness
+
+xiaomi_ble:
+esp32_ble_tracker:
+
+sensor:
+
   - platform: adc
     pin: A0
     name: "Living Room Brightness"
     update_interval: 60s
+    
+# > system_profiler SPBluetoothDataType
+  - platform: xiaomi_lywsd03mmc
+    mac_address: "A4:C1:38:0C:16:65"
+    bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"
+    temperature:
+      name: "LYWSD03MMC Temperature"
+    humidity:
+      name: "LYWSD03MMC Humidity"
+    battery_level:
+      name: "LYWSD03MMC Battery Level"
 
-web_server:
-  port: 80

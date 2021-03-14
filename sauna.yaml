@@ -1,0 +1,35 @@
+esphome:
+  name: sauna
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: "zhopa"
+  password: "melnikov"
+  # manual_ip:
+    # static_ip: 192.168.88.10
+    # subnet: 255.255.240.0
+    # gateway: 192.168.88.1
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  #ap:
+  #  ssid: "nasa"
+  #  password: "12345678"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+
+#ota:
+
+sensor:
+# http://sauna.local/sensor/living_room_brightness
+  - platform: adc
+    pin: A0
+    name: "Living Room Brightness"
+    update_interval: 60s
+
+web_server:
+  port: 80

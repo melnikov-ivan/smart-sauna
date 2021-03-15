@@ -3,9 +3,12 @@ esphome:
   platform: ESP32
   board: nodemcu-32s
 
+substitutions:
+  <<: !include secrets.yaml
+
 wifi:
-  ssid: "zhopa"
-  password: "melnikov"
+  ssid: ${wifi_ssid}
+  password: ${wifi_password}
   # manual_ip:
     # static_ip: 192.168.88.10
     # subnet: 255.255.240.0
@@ -41,6 +44,7 @@ sensor:
     update_interval: 60s
     
 # > system_profiler SPBluetoothDataType
+# http://sauna.local/sensor/lywsd03mmc_temperature
   - platform: xiaomi_lywsd03mmc
     mac_address: "A4:C1:38:0C:16:65"
     bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"

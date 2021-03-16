@@ -13,3 +13,7 @@ EspHome позволяет сделать это через конфигурац
 - `esphome sauna.yaml run` - загрузка конфигурации на ноду
 - `esphome . dashboard` - online editor http://localhost:6052/
 
+
+Прошивка Mijia
+--------------
+https://atc1441.github.io/TelinkFlasher.html

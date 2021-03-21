@@ -4,7 +4,7 @@ esphome:
   board: nodemcu-32s
 
 substitutions:
-  <<: !include secrets.yaml
+  <<: !include sauna.secrets
 
 wifi:
   ssid: ${wifi_ssid}
@@ -33,21 +33,33 @@ logger:
 
 # http://sauna.local/sensor/living_room_brightness
 
-xiaomi_ble:
+# xiaomi_ble:
 esp32_ble_tracker:
+
+dallas:
+  - pin: GPIO18
 
 sensor:
 
+  - platform: dallas
+    address: 0x6A800000262BC928
+    name: "Bak 1 Temp"
+
   - platform: adc
-    pin: A0
-    name: "Living Room Brightness"
+    pin: GPIO32
+    name: "Bak 1 Level"
     update_interval: 60s
+    filters:
+      - lambda: return (x / 1024 - 0.04) / 0.018 / 0.5;
+    unit_of_measurement: "cm"
+    accuracy_decimals: 1
     
 # > system_profiler SPBluetoothDataType
 # http://sauna.local/sensor/lywsd03mmc_temperature
-  - platform: xiaomi_lywsd03mmc
+  - platform: atc_mithermometer
+  # platform: xiaomi_lywsd03mmc
     mac_address: "A4:C1:38:0C:16:65"
-    bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"
+    # bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"
     temperature:
       name: "LYWSD03MMC Temperature"
     humidity:

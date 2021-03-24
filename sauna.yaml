@@ -7,17 +7,14 @@ substitutions:
   <<: !include sauna.secrets
 
 wifi:
-  # ssid: ${wifi_ssid}
-  # password: ${wifi_password}
-  # manual_ip:
-    # static_ip: 192.168.88.10
-    # subnet: 255.255.240.0
-    # gateway: 192.168.88.1
+  ssid: ${wifi_ssid}
+  password: ${wifi_password}
+
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "sauna"
-    password: "12345678"
+  # ap:
+  #   ssid: "sauna"
+  #   password: "12345678"
 
 # captive_portal:
 
@@ -29,15 +26,10 @@ web_server:
   js_include: "webserver-v1.min.js"
   js_url: ""
 
-  # Enable logging
-logger:
+# Enable logging
+# logger:
 
 
-#ota:
-
-# http://sauna.local/sensor/living_room_brightness
-
-# xiaomi_ble:
 esp32_ble_tracker:
 
 dallas:
@@ -64,9 +56,18 @@ sensor:
         - 0.64 -> 11.0
     unit_of_measurement: "cm"
     accuracy_decimals: 1
-    
-# > system_profiler SPBluetoothDataType
-# http://sauna.local/sensor/lywsd03mmc_temperature
+
+  - platform: adc
+    pin: GPIO33
+    name: "Bak 2 Level"
+    update_interval: 60s
+    filters:
+      - calibrate_linear:
+        - 0.37 -> 0.0
+        - 0.64 -> 11.0
+    unit_of_measurement: "cm"
+    accuracy_decimals: 1
+
   - platform: atc_mithermometer
   # platform: xiaomi_lywsd03mmc
     mac_address: "A4:C1:38:0C:16:65"

@@ -7,23 +7,27 @@ substitutions:
   <<: !include sauna.secrets
 
 wifi:
-  ssid: ${wifi_ssid}
-  password: ${wifi_password}
+  # ssid: ${wifi_ssid}
+  # password: ${wifi_password}
   # manual_ip:
     # static_ip: 192.168.88.10
     # subnet: 255.255.240.0
     # gateway: 192.168.88.1
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
-  #ap:
-  #  ssid: "nasa"
-  #  password: "12345678"
+  ap:
+    ssid: "sauna"
+    password: "12345678"
 
-captive_portal:
+# captive_portal:
 
 
 web_server:
   port: 80
+  css_include: "webserver-v1.min.css"
+  css_url: ""
+  js_include: "webserver-v1.min.js"
+  js_url: ""
 
   # Enable logging
 logger:
@@ -42,15 +46,22 @@ dallas:
 sensor:
 
   - platform: dallas
-    address: 0x6A800000262BC928
+    address: 0xEF800000263C0828
     name: "Bak 1 Temp"
+ 
+  - platform: dallas
+    address: 0x6A800000262BC928
+    name: "Bak 2 Temp"
 
   - platform: adc
     pin: GPIO32
     name: "Bak 1 Level"
     update_interval: 60s
     filters:
-      - lambda: return (x / 1024 - 0.04) / 0.018 / 0.5;
+      # - lambda: return (x / 1024 - 0.04) / 0.018 / 0.5;
+      - calibrate_linear:
+        - 0.37 -> 0.0
+        - 0.64 -> 11.0
     unit_of_measurement: "cm"
     accuracy_decimals: 1
     
@@ -61,9 +72,9 @@ sensor:
     mac_address: "A4:C1:38:0C:16:65"
     # bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"
     temperature:
-      name: "LYWSD03MMC Temperature"
+      name: "Room 1 Temperature"
     humidity:
-      name: "LYWSD03MMC Humidity"
+      name: "Room 1 Humidity"
     battery_level:
-      name: "LYWSD03MMC Battery Level"
+      name: "Room 1 Battery"
 

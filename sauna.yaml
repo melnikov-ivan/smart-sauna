@@ -21,13 +21,14 @@ wifi:
 
 web_server:
   port: 80
-  css_include: "webserver-v1.min.css"
+  # css_include: "webserver-v1.min.css"
   css_url: ""
-  js_include: "webserver-v1.min.js"
+  # js_include: "webserver-v1.min.js"
+  js_include: "sauna.js"
   js_url: ""
 
 # Enable logging
-# logger:
+logger:
 
 
 esp32_ble_tracker:
@@ -69,13 +70,29 @@ sensor:
     accuracy_decimals: 1
 
   - platform: atc_mithermometer
-  # platform: xiaomi_lywsd03mmc
     mac_address: "A4:C1:38:0C:16:65"
-    # bindkey: "60e7d1ee4bfe2ffc388dad808e00d422"
     temperature:
       name: "Room 1 Temperature"
     humidity:
       name: "Room 1 Humidity"
     battery_level:
       name: "Room 1 Battery"
+
+  - platform: atc_mithermometer
+    mac_address: "A4:C1:38:26:D7:AF"
+    temperature:
+      name: "Room 2 Temperature"
+    humidity:
+      name: "Room 2 Humidity"
+    battery_level:
+      name: "Room 2 Battery"
+
+  - platform: atc_mithermometer
+    mac_address: "A4:C1:38:B2:E7:04"
+    temperature:
+      name: "Room 3 Temperature"
+    humidity:
+      name: "Room 3 Humidity"
+    battery_level:
+      name: "Room 3 Battery"
 

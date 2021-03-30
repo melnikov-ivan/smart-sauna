@@ -1,0 +1,31 @@
+@viewport {
+    zoom: 3.0;
+    /* width: extend-to-zoom; */
+    max-width: 400px;
+}
+
+body {
+    font-family: Nunito,sans-serif;
+}
+table {
+    /* width: 100%; */
+    line-height: 1.5;
+    color: #6c757d;
+    background-color: #fafbfe;
+}
+table td {
+    padding: 0.5em;
+    margin: 1.0em;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
+    vertical-align: top ;
+}
+table div {
+    white-space: nowrap;
+}
+table h2 {
+    margin: 10px 0;
+    font-weight: 700;
+}

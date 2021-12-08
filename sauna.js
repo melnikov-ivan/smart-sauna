@@ -31,6 +31,7 @@ document.body.innerHTML = '\
   <h2>Комната 4</h2>\
   <div id="sensor-room_4_temperature"></div>\
   <div id="sensor-room_4_humidity"></div>\
+  <div id="sensor-room_4_battery"></div>\
 </td></tr>\
 </div>\
 ';

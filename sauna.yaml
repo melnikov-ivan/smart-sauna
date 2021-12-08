@@ -108,3 +108,12 @@ sensor:
     battery_level:
       name: "Room 3 Battery"
 
+  - platform: atc_mithermometer
+    mac_address: "A4:C1:38:7B:73:84"
+    temperature:
+      name: "Room 4 Temperature"
+    humidity:
+      name: "Room 4 Humidity"
+    battery_level:
+      name: "Room 4 Battery"
+  

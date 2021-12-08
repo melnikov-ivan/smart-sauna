@@ -16,7 +16,17 @@ wifi:
   #   ssid: "sauna"
   #   password: "12345678"
 
+ota:
+  safe_mode: true
+  password: 12345678
+
 # captive_portal:
+
+mqtt:
+  broker: broker.hivemq.com
+  port: 1883
+  username: sauna
+  password: sauna
 
 
 web_server:
@@ -30,6 +40,7 @@ web_server:
 
 # Enable logging
 logger:
+  level: DEBUG
 
 
 esp32_ble_tracker:

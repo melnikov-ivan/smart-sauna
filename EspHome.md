@@ -10,8 +10,8 @@ EspHome позволяет сделать это через конфигурац
 Запуск
 ------
 
-- `esphome sauna.yaml run` - загрузка конфигурации на ноду
-- `esphome . dashboard` - online editor http://localhost:6052/
+- `esphome run sauna.yaml` - загрузка конфигурации на ноду
+- `esphome dashboard .` - online editor http://localhost:6052/
 
 ## Датчики
 

@@ -22,12 +22,6 @@ ota:
 
 # captive_portal:
 
-mqtt:
-  broker: broker.hivemq.com
-  port: 1883
-  username: sauna
-  password: sauna
-
 
 web_server:
   port: 80
@@ -40,7 +34,6 @@ web_server:
 
 # Enable logging
 logger:
-  level: DEBUG
 
 
 esp32_ble_tracker:
@@ -51,35 +44,38 @@ dallas:
 sensor:
 
   - platform: dallas
-    address: 0xEF800000263C0828
+    address: 0x6A800000262BC928
     name: "Bak 1 Temp"
+    accuracy_decimals: 0
  
   - platform: dallas
-    address: 0x6A800000262BC928
+    address: 0xEF800000263C0828
     name: "Bak 2 Temp"
+    accuracy_decimals: 0
 
   - platform: adc
     pin: GPIO32
     name: "Bak 1 Level"
-    update_interval: 60s
+    update_interval: 20s
+    attenuation: auto
     filters:
-      # - lambda: return (x / 1024 - 0.04) / 0.018 / 0.5;
       - calibrate_linear:
-        - 0.37 -> 0.0
-        - 0.64 -> 11.0
+        - 0.12 -> 0.0
+        - 0.45 -> 10.0
     unit_of_measurement: "cm"
-    accuracy_decimals: 1
+    accuracy_decimals: 0
 
   - platform: adc
     pin: GPIO33
     name: "Bak 2 Level"
-    update_interval: 60s
+    update_interval: 20s
+    attenuation: auto
     filters:
       - calibrate_linear:
-        - 0.37 -> 0.0
-        - 0.64 -> 11.0
+        - 0.17 -> 0.0
+        - 0.45 -> 10.0 
     unit_of_measurement: "cm"
-    accuracy_decimals: 1
+    accuracy_decimals: 0
 
   - platform: atc_mithermometer
     mac_address: "A4:C1:38:0C:16:65"
@@ -116,4 +112,3 @@ sensor:
       name: "Room 4 Humidity"
     battery_level:
       name: "Room 4 Battery"
-  
